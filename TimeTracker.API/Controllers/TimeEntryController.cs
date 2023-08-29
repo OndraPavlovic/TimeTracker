@@ -18,9 +18,16 @@ namespace TimeTracker.API.Controllers
             }
         };
 
-        [HttpGet]        
+        [HttpGet]
         public ActionResult<List<TimeEntry>> GetAllTimeEntries()
         {
+            return Ok(_timeEntries);
+        }
+
+        [HttpPost]
+        public ActionResult<List<TimeEntry>> CreateTimeEntry(TimeEntry timeEntry)
+        {
+            _timeEntries.Add(timeEntry);
             return Ok(_timeEntries);
         }
     }
