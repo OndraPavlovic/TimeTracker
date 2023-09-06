@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeTracker.Shared.DTOs.Project
 {
-    public record struct ProjectResponse(
-            int Id,
+    public record struct ProjectCreateRequest(        
             string Name,
             string? Description,
             DateTime? StartDate,
