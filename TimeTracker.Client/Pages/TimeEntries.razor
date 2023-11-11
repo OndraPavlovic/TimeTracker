@@ -1,5 +1,6 @@
 ﻿@page "/timeentries"
-@inject HttpClient Http
+@inject ITimeEntryService TimeEntryService
+@implements IDisposable
 
 <PageTitle>Time Entries</PageTitle>
 <h3>Time Entries</h3>
@@ -15,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var timeEntry in timeEntries)
+        @foreach (var timeEntry in TimeEntryService.TimeEntries)
         {
             <tr>
                 <td>@timeEntry.Start</td>
@@ -39,16 +40,12 @@
 }
 
 @code {
-    private List<TimeEntryResponse> timeEntries = new List<TimeEntryResponse>();
     int projectId;
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await Http.GetFromJsonAsync<List<TimeEntryResponse>>("api/timeentry");
-        if (result != null)
-        {
-            timeEntries = result;
-        }
+        await TimeEntryService.GetTimeEntriesByProject(projectId);
+        TimeEntryService.OnChange += StateHasChanged;
     }
 
     private string GetDuration(DateTime? start, DateTime? end)
@@ -70,5 +67,10 @@
         }
         projectId = id;
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        TimeEntryService.OnChange -= StateHasChanged;
     }
 }
