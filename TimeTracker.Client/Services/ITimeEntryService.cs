@@ -8,5 +8,6 @@ namespace TimeTracker.Client.Services
 
         public List<TimeEntryResponse> TimeEntries { get; set; }
         Task GetTimeEntriesByProject(int projectId);
+        Task<TimeEntryResponse> GetTimeEntryById(int id);
     }
 }
